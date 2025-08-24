@@ -2,15 +2,73 @@ import empleados.*
 
 test "Qué hacen los empleados con lo que cobran" {
 	
-  baigorria.vender(500)
+  baigorria.venderEmpanada(500)
   galvan.sueldo(20000)
-  baigorria.vender(300)
-  gimenez.pagarSueldo(baigorria)
-  gimenez.pagarSueldo(galvan)
+  baigorria.venderEmpanada(300)
+  gimenez.pagarSueldoA(baigorria)
+  gimenez.pagarSueldoA(galvan)
   
-  baigorria.vender(100)
-  gimenez.pagarSueldo(baigorria)
+  baigorria.venderEmpanada(100)
+  gimenez.pagarSueldoA(baigorria)
   assert.equals(13500, baigorria.totalCobrado())
   
  	
+}
+
+object galvan {
+  var sueldo = 15000
+
+  method sueldo() {
+    return sueldo
+  }
+  
+  method sueldo(nuevoSueldo) {
+    sueldo = nuevoSueldo    
+  
+  }
+
+  method cobrarSueldo() {
+    
+  }
+}
+
+object baigorria {
+  var cantidadDeEmpanadasVendidas = 0
+  const precioPorUnidad = 15
+  var totalQueCobre = 0 
+
+  method venderEmpanada (cantidadDeEmpanada) {
+    cantidadDeEmpanadasVendidas = cantidadDeEmpanadasVendidas + cantidadDeEmpanada 
+  }
+
+  method sueldo () {
+    return cantidadDeEmpanadasVendidas * precioPorUnidad 
+    
+  }
+  method cobrarSueldo() {
+    totalQueCobre = totalQueCobre + self.sueldo()
+    cantidadDeEmpanadasVendidas = 0
+    
+  }
+  method totalCobrado() {
+    return totalQueCobre
+    
+  }
+}
+
+object gimenez {
+  var plata = 300000 
+
+  method plata () {
+    return plata
+   }  
+
+  method pagarSueldoA(empleado) {
+    plata = plata - empleado.sueldo()
+    empleado.cobrarSueldo()
+  
+  }
+
+  
+
 }

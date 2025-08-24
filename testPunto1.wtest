@@ -2,15 +2,52 @@ import empleados.*
 
 test "punto1: Planteo inicial" {
 
-  baigorria.vender(500)
+  baigorria.venderEmpanada(500)
   galvan.sueldo(20000)
-  baigorria.vender(300)
+  baigorria.venderEmpanada(300)
   assert.equals(12000, baigorria.sueldo())
   assert.equals(20000, galvan.sueldo())
   
-  gimenez.pagarSueldo(baigorria)
-  gimenez.pagarSueldo(galvan)
-  assert.equals(268000, gimenez.fondo())
+  gimenez.pagarSueldoA(baigorria)
+  gimenez.pagarSueldoA(galvan)
+  assert.equals(268000, gimenez.plata())
   
 }
 
+object galvan {
+  var sueldo = 15000
+
+  method sueldo() {
+    return sueldo
+  }
+  
+  method sueldo(nuevoSueldo) {
+    sueldo = nuevoSueldo    
+  }
+}
+
+object baigorria {
+  var cantidadDeEmpanadasVendidas = 0
+  const precioPorUnidad = 15
+  method venderEmpanada (cantidadDeEmpanada) {
+    cantidadDeEmpanadasVendidas = cantidadDeEmpanadasVendidas + cantidadDeEmpanada 
+  }
+  method sueldo () {
+    return cantidadDeEmpanadasVendidas * precioPorUnidad 
+    
+  }
+  
+
+}
+
+object gimenez {
+   var plata = 300000 
+
+   method plata () {
+    return plata
+   }  
+   method pagarSueldoA(empleado) {
+    plata = plata - empleado.sueldo()
+  
+   }
+}
